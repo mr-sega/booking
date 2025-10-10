@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingPageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/bookings', [BookingPageController::class, 'index'])->name('bookings.index');
+Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
