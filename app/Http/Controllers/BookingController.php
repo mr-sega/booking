@@ -14,7 +14,9 @@ class BookingController extends Controller
 
     public function store(StoreBookingRequest $request)
     {
-        $booking = Booking::query()->create($request->validated());
-        return response()->json($booking, 201);
+        Booking::query()->create($request->validated());
+
+        return redirect()->route('bookings.index')
+            ->with('success', 'Booking created successfully!');
     }
 }
