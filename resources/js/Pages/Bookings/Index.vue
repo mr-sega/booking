@@ -2,15 +2,15 @@
 import { ref, watch } from 'vue'
 import axios from 'axios'
 
-// Props с сервера
+
 const props = defineProps({
     bookings: Array
 })
 
-// Таблица бронирований
+
 const bookingList = ref([...props.bookings])
 
-// Форма бронирования
+
 const form = ref({
     customer_name: '',
     yacht_name: '',
@@ -19,11 +19,10 @@ const form = ref({
     price: 0
 })
 
-// Алерты
+
 const successMessage = ref('')
 const errorMessage = ref('')
 
-// Авто-расчёт цены $50/день
 watch([() => form.value.start_date, () => form.value.end_date], () => {
     if (form.value.start_date && form.value.end_date) {
         const start = new Date(form.value.start_date)
@@ -35,7 +34,6 @@ watch([() => form.value.start_date, () => form.value.end_date], () => {
     }
 })
 
-// Отправка формы
 const submit = async () => {
     successMessage.value = ''
     errorMessage.value = ''
@@ -44,7 +42,6 @@ const submit = async () => {
         const res = await axios.post('/bookings', form.value)
         bookingList.value.push(res.data)
 
-        // Сброс формы
         form.value.customer_name = ''
         form.value.yacht_name = ''
         form.value.start_date = ''
@@ -68,21 +65,18 @@ const submit = async () => {
     <div class="max-w-5xl mx-auto py-12 px-6 bg-gray-50 min-h-screen">
         <h1 class="color-red text-4xl font-bold text-center text-gray-800 mb-10">📅 Yacht Bookings</h1>
 
-        <!-- Алерт успеха -->
         <transition name="fade">
             <div v-if="successMessage" class="mb-4 p-4 rounded-xl bg-green-50 border border-green-300 text-green-800 text-center shadow-sm">
                 {{ successMessage }}
             </div>
         </transition>
 
-        <!-- Алерт ошибки -->
         <transition name="fade">
             <div v-if="errorMessage" class="mb-4 p-4 rounded-xl bg-red-50 border border-red-300 text-red-800 text-center shadow-sm">
                 {{ errorMessage }}
             </div>
         </transition>
 
-        <!-- Таблица бронирований -->
         <div class="overflow-x-auto mb-10">
             <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
                 <thead class="bg-gray-100">
@@ -109,7 +103,6 @@ const submit = async () => {
             </table>
         </div>
 
-        <!-- Форма бронирования -->
         <div class="bg-white rounded-2xl shadow-lg p-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6">Add a New Booking</h2>
             <form @submit.prevent="submit" class="grid gap-4">
@@ -136,7 +129,7 @@ const submit = async () => {
 </template>
 
 <style>
-/* Простая анимация fade для алертов */
+
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.5s;
 }
